@@ -161,16 +161,16 @@ void HCSR04Sensor::measureMicroseconds(unsigned long* results) {
 void HCSR04Sensor::measureDistanceMm(float temperature, double* results) {
 	if (results == NULL) results = this->lastDistances;
 
-	double speedOfSoundInMmPerMs = (331.3 + 0.606 * temperature) / 1000 / 100; // Cair ≈ (331.3 + 0.606 ⋅ ϑ) m/s
+	double speedOfSoundInMmPerMs = (331.3 + 0.606 * temperature) / 1000 ; // Cair ≈ (331.3 + 0.606 ⋅ ϑ) m/s
 	unsigned long* times = measureMicroseconds();
 	
 	// Calculate the distance in mm for each result.
 	for (int i = 0; i < this->echoCount; i++) {
-		double distanceCm = times[i] / 2.0 * speedOfSoundInMmPerMs;
-		if (distanceCm < 1 || distanceCm > 400) {
+		double distanceMm = times[i] / 2.0 * speedOfSoundInMmPerMs;
+		if (distanceMm < 1 || distanceMm > 400) {
 			results[i] = -1.0;
 		} else {
-			results[i] = distanceCm;
+			results[i] = distanceMm;
 		}
 	}
 }
